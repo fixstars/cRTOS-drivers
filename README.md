@@ -16,7 +16,7 @@ The first 2 are identical to Jailhouse's upstream driver, but can be compiled fo
 The `uio_ivshmem` driver maps a ivshmem v2 devices as a uio device.
 The `ivshmem_net` is for inter-cell Ethernet.
 
-The `shadow` is a custom rolled device driver for remoce system call of cRTOS.
+The `shadow` is a custom rolled device driver for remote system call of cRTOS.
 It is based on the `ivshmem_net` driver, utilizing 2 vrings to send messages from/to the RTOS.
 This interface is exposed as a character device.
 In addition, it provides interface to map the ivshmem region on page basis (the `uio_ivshmem` maps the whole region at once).
@@ -60,3 +60,12 @@ insmod shadow.ko shmaddr=0x108000000
 This program is licensed under GPL version 2.
 
 You can find a copy of the license in the `LICENSE` file.
+
+## Authors
+
+This is a collective work of multiple contributors.
+The original `ivshmem-net` and `uio_ivshmem` source code is contributed by 
+Mans Rullgard <mans@mansr.com> and Jan Kiszka <jan.kiszka@siemens.com> from Siemens.
+
+The `shadow` module is a derived work, extended from the works above by 
+ChungFan Yang <chungfan.yang@fixstars.com> from Fixstars corporation.
