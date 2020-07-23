@@ -222,8 +222,6 @@ static void __exit shadow_exit(void);
  * Private Data and getters
 ******************************************************************************/
 
-ulong shmaddr = 0x0;
-
 static ssize_t name_show(struct device *dev,
                          struct device_attribute *attr, char *buf)
 {
@@ -1053,7 +1051,7 @@ static int shadow_pci_probe(struct pci_dev *pdev,
 
     mem++;
     mem->name = "rw_section";
-    mem->paddr = shmaddr;
+    mem->paddr = section_addr;
     mem->size = rw_section_sz;
     if (!devm_request_mem_region(&pdev->dev, mem->paddr, mem->size,
                                  device_name))
@@ -1066,6 +1064,8 @@ static int shadow_pci_probe(struct pci_dev *pdev,
     output_section_sz = get_config_qword(pdev, cap_pos);
     if (output_section_sz < 0x2000)
         return -EINVAL;
+
+    section_addr += mem->size;
 
     mem++;
     mem->name = "input_sections";
@@ -1423,8 +1423,6 @@ static void __exit shadow_exit(void)
 /******************************************************************************
  * Kernel Module Definitions
 ******************************************************************************/
-
-module_param(shmaddr, ulong, 0);
 
 module_init(shadow_init);
 module_exit(shadow_exit);
